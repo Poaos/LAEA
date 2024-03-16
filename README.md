@@ -1,10 +1,12 @@
 # LAEA: A 2D LiDAR Assisted UAV Exploration Algorithm for Unknown Environment 
 
-[**LAEA**]() is a 2D LiDAR Assisted UAV Exploration Algorithm based on the framework of [**FAEP**](https://arxiv.org/abs/2302.02293). 
+[**LAEA**]() is a 2D LiDAR Assisted UAV Exploration Algorithm based on the framework of FAEP. 
+
+# CODE WILL COME SOON
 
 Please kindly star ⭐ this project if it helps you. We take great efforts to develope and maintain it.
 
-[![](https://markdown-videos-api.jorgenkh.no/youtube/_a1Vl518Ra8)](https://youtu.be/_a1Vl518Ra8)
+[<img src="https://markdown-videos-api.jorgenkh.no/youtube/_a1Vl518Ra8" style="zoom: 200%;" />](https://youtu.be/_a1Vl518Ra8)
 
 
 
