@@ -4,7 +4,7 @@
 
 # CODE WILL COME SOON
 
-![avatar](.assets\figure_sim.png)
+![avatar](.assets/figure_sim.png)
 
 
 
