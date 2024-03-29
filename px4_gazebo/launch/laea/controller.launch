@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch> 
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="tf_base2camera" 
+        args="0.12 0 0 -1.57 0 -1.57 base_link camera_link" />
+
+    <rosparam param="frame_id">"map"</rosparam> 
+    <rosparam param="child_frame_id">"camera_link"</rosparam> 
+    
+    <arg name="pose_topic_out" value="/mavros/camera/pose"/>
+    <arg name="odom_topic_out" value="/mavros/camera/odom"/>
+    <node pkg="px4_gazebo" type="tf2topic_tf" name="tf2topic_tf" output="screen">
+        <remap from="pose_out" to="$(arg pose_topic_out)"/>
+        <remap from="odom_out" to="$(arg odom_topic_out)"/>
+    </node>
+
+    <!-- Trajectory message type conversion -->
+    <include file="$(find px4_gazebo)/launch/laea/traj_transfer.launch">
+    </include>
+
+    <!-- controller -->
+    <include file="$(find px4_gazebo)/launch/laea/pure_track.launch">
+    </include>
+
+</launch>

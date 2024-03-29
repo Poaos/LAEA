@@ -1,0 +1,68 @@
+
+<launch>
+	<param name="/use_sim_time" value="true"/>
+
+	<!-- depth_point_cloud -->
+	<include file="$(find laserscan_to_pointcloud)/launch/depth_cloud.launch">
+	</include>
+	<!-- scan_cloud -->
+	<include file="$(find laserscan_to_pointcloud)/launch/cloud.launch">
+	</include>
+
+	<node pkg="tf" type="static_transform_publisher" name="map2world" args="0 0 0 0 0 0 map world 30" />
+	
+	<!-- more params, see OctomapServer.cpp -->
+	<node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+
+		<param name="only_2d_pub" value="true" />
+		<!-- Remove small connected areas -->
+		<param name="use_Contours" value="true" />
+		<!-- Corrosion first, then expansion -->
+		<param name="use_erode_dilate" value="true" />
+
+		<!-- Radius Filter: -->
+		<param name="radius_outlier_radius" value="1.5" />
+		<param name="radius_outlier_neighbors" value="3" />
+
+		<!-- centr_map_range  bigger than lidar range(m)  -->
+		<param name="centr_map_range" value="12" />
+
+		<!-- low resolution enable faster pub-rate -->
+		<param name="resolution" value="0.15" />
+
+		<!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
+		<param name="frame_id" type="string" value="world" />
+		
+		<!-- maximum range to integrate (speedup!) -->
+		<param name="sensor_model/max_range" value="100" />
+
+		<!-- data source to integrate (PointCloud2) -->
+		<remap from="cloud_in" to="/depth_scan_pointcloud" />
+		<!-- iris_0/laser_2d -->
+		<remap from="extra_cloud_in" to="/scan_pointcloud" />
+
+		<param name="pointcloud_min_z" value="0.01" />
+		<param name="pointcloud_max_z" value="4" />
+
+		<param name="occupancy_min_z" value="0.1" />
+		<param name="occupancy_max_z" value="1.5" />
+
+		<!-- defautl: 0.7&0.4 -->
+		<param name="sensor_model/hit" value="0.7" />
+		<param name="sensor_model/miss" value="0.4" />
+
+		<!-- default: 0.12&0.97 -->
+		<param name="sensor_model/min" value="0.12" />
+		<param name="sensor_model/max" value="0.97" />
+
+		<param name="m_filterSpeckles" value="true" />
+		<!-- m_useHeightMap -->
+		<param name="m_useHeightMap" value="false" />
+
+	</node>
+
+	<!-- rviz-display -->
+	<!-- <node name="rviz_map_" pkg="rviz" type="rviz" output="log" 
+    	args="-d $(find octomap_server)/cfg/map.rviz" /> -->
+
+</launch>

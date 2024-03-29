@@ -1,0 +1,31 @@
+<!-- 
+  Example launch file for octomap_server mapping using nodelets: 
+  Listens to incoming PointCloud2 data and incrementally builds an octomap. 
+  The data is sent out in different representations. 
+
+  Copy this file into your workspace and adjust as needed, see
+  www.ros.org/wiki/octomap_server for details  
+-->
+	
+<launch>
+
+  <param name="/use_sim_time" value="true"/>
+  <node pkg="nodelet" type="nodelet" name="standalone_nodelet"  args="manager"/>
+
+  <node pkg="nodelet" type="nodelet" name="octomap_server_nodelet" args="load octomap_server/OctomapServerNodelet standalone_nodelet">
+		<param name="resolution" value="0.2" />
+
+		<!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
+		<param name="frame_id" type="string" value="map" />
+		
+		<!-- maximum range to integrate (speedup!) -->
+		<param name="sensor_model/max_range" value="10.0" />
+		
+		<!-- data source to integrate (PointCloud2) -->
+		<remap from="octomap_server_nodelet/cloud_in" to="/scan_pointcloud" />
+	 
+	  <!-- output collision map -->
+	  <remap from="octomap_server_nodelet/collision_map_out" to="collision_map_out"/>
+	
+	</node>
+</launch>

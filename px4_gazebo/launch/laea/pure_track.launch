@@ -1,0 +1,36 @@
+<launch>
+    <arg name="mav_name" default="iris"/>
+    <!-- 2-NonlinearGeometricControl  1-NonlinearAttitudeControl -->
+    <arg name="command_input" default="2" />
+    <!-- true - auto disarm&offboard -->
+    <arg name="gazebo_simulation" default="false" />
+    <!-- use rviz or not -->
+    <arg name="visualization" default="false"/>
+    
+    <node pkg="geometric_controller" type="geometric_controller_node" name="geometric_controller" output="screen">
+
+        <param name="mav_name" type="string" value="$(arg mav_name)" />
+        <remap from="command/bodyrate_command" to="/mavros/setpoint_raw/attitude"/>
+        <param name="ctrl_mode" value="$(arg command_input)" />
+        <param name="enable_sim" value="$(arg gazebo_simulation)" />
+        <param name="enable_gazebo_state" value="true"/>
+        <param name="max_acc" value="10.0" />
+        <!--Params specific for Iris copter-->
+        <param name="attctrl_constant" value="0.3"/>
+        <param name="normalizedthrust_constant" value="0.06"/>
+        <param name="normalizedthrust_offset" value="0.1"/>
+        <param name="Kp_x" value="10.0" />
+        <param name="Kp_y" value="10.0" />
+        <param name="Kp_z" value="20.0" />
+        <param name="Kv_x" value="5.0"/>
+        <param name="Kv_y" value="5.0"/>
+        <param name="Kv_z" value="10.0"/>
+        <param name="init_pos_z" value="1.0"/>
+    </node>
+
+    <group if="$(arg visualization)">
+        <node type="rviz" name="rviz" pkg="rviz" args="-d $(find geometric_controller)/launch/config_file.rviz" />
+    </group>
+
+
+</launch>

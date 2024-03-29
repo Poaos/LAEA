@@ -1,0 +1,6 @@
+<launch>
+
+  <node name="rviz_map_" pkg="rviz" type="rviz" output="log" 
+    args="-d $(find octomap_server)/cfg/map.rviz" />
+
+</launch>

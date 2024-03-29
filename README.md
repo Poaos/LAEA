@@ -1,18 +1,41 @@
-# LAEA: A 2D LiDAR Assisted UAV Exploration Algorithm for Unknown Environment 
+# LAEA: A 2D LiDAR-Assisted UAV Exploration Algorithm for Unknown Environments 
 
-[**LAEA**]() is a 2D LiDAR Assisted UAV Exploration Algorithm based on the framework of FAEP. 
-
-# CODE WILL COME SOON
+[**LAEA**]() is a 2D LiDAR-Assisted UAV Exploration Algorithm based on the framework of FAEP. Please kindly star ⭐ this project if it helps you. We take great efforts to develop and maintain it 😁😁.
 
 ![avatar](.assets/figure_sim.png)
 
+Details about our works (youtube).
 
+<p align="center">
+  <a href="https://youtu.be/_a1Vl518Ra8" target="_blank"><img src=".assets/figure_cover.png" alt="video" width="800" height="400" border="1" /></a>
+</p>
 
+Please cite our paper if you use this project in your research:
 
+- [**LAEA: A 2D LiDAR-Assisted UAV Exploration Algorithm for Unknown Environments **](https://www.mdpi.com/2504-446X/8/4/128), Hou, Xiaolei, Zheng Pan, Li Lu, Yuhang Wu, Jinwen Hu, Yang Lyu, and Chunhui Zhao. 2024, *Drones*.
 
-Please kindly star ⭐ this project if it helps you. We take great efforts to develope and maintain it.
+```
+@Article{drones8040128,
+AUTHOR = {Hou, Xiaolei and Pan, Zheng and Lu, Li and Wu, Yuhang and Hu, Jinwen and Lyu, Yang and Zhao, Chunhui},
+TITLE = {LAEA: A 2D LiDAR-Assisted UAV Exploration Algorithm for Unknown Environments},
+JOURNAL = {Drones},
+VOLUME = {8},
+YEAR = {2024},
+NUMBER = {4},
+ARTICLE-NUMBER = {128},
+URL = {https://www.mdpi.com/2504-446X/8/4/128},
+ISSN = {2504-446X},
+}
+```
 
-[<img src="https://markdown-videos-api.jorgenkh.no/youtube/_a1Vl518Ra8" style="zoom: 200%;" />](https://youtu.be/_a1Vl518Ra8)
+Simulation experiment quik overview: Indoor1、Indoor2、Forest. 
+
+![avatar](.assets/indoor1-x30.gif)
+
+![avatar](.assets/indoor2-x30.gif)
+
+![avatar](.assets/forest-x30.gif)
+
 
 
 

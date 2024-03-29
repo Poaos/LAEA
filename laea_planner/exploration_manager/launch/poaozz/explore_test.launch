@@ -1,0 +1,91 @@
+<launch>
+
+  <!-- for rviz visualization uav_pose -->
+  <node pkg="tf" type="static_transform_publisher" name="tf_map2world_link" 
+        args="0 0 0 0 0 0 map world 30" />
+
+  <!-- size of map, change the size in x, y, z according to your application -->
+  <arg name="map_size_x" value="80.0"/>
+  <arg name="map_size_y" value="80.0"/>
+  <arg name="map_size_z" value="3.0"/>
+
+  <arg name="init_x" value="0.0"/>
+  <arg name="init_y" value="0.0"/>
+  <arg name="init_z" value="1.0"/> 
+
+  <!-- topic of your odometry such as VIO or LIO -->
+  <arg name="odom_topic" value="/mavros/local_position/odom" />
+
+  <!-- main algorithm params -->
+  <include file="$(find exploration_manager)/launch/poaozz/algorithm_.xml">
+
+    <arg name="map_size_x_" value="$(arg map_size_x)"/>
+    <arg name="map_size_y_" value="$(arg map_size_y)"/>
+    <arg name="map_size_z_" value="$(arg map_size_z)"/>
+    <arg name="odometry_topic" value="$(arg odom_topic)"/>
+
+    <arg name="init_x" value="$(arg init_x)"/>
+    <arg name="init_y" value="$(arg init_y)"/>
+    <arg name="init_z" value="$(arg init_z)"/> 
+
+    <!-- sensor pose: transform of camera frame in the world frame -->
+    <arg name="sensor_pose_topic" value="/mavros/camera/pose"/>
+    <!-- depth topic: depth image, 640x480 by default -->
+    <!-- cloud topic: point cloud measurement  -->
+    <!-- subscribe ONLY TO ONE of the two topics -->
+    <arg name="depth_topic" value="/camera/depth/image_raw"/>
+    <arg name="cloud_topic" value="/pcl_render_node/cloud"/>
+
+    <!-- intrinsic params of the depth camera -->
+    <arg name="cx" value="321.04638671875"/>
+    <arg name="cy" value="243.44969177246094"/>
+    <arg name="fx" value="387.229248046875"/>
+    <arg name="fy" value="387.229248046875"/>
+
+    <!-- maximum velocity and acceleration the drone will reach -->
+    <!-- <arg name="max_vel" value="2.0" />
+    <arg name="max_acc" value="2.0" /> -->
+    <arg name="max_vel" value="1.0" />
+    <arg name="max_acc" value="1" />
+
+    <!-- <arg name="max_vel" value="0.5" />
+    <arg name="max_acc" value="0.5" /> -->
+
+    <!-- indoor_01 -->
+    <!-- 19*41 -->
+    <arg name="box_x_min" value="-23" />
+    <arg name="box_y_min" value="-11" />
+    <arg name="box_z_min" value="-0.1" />
+    <arg name="box_x_max" value="23" />
+    <arg name="box_y_max" value="11" />
+    <arg name="box_z_max" value="2.3" />
+
+    <!-- indoor_02 -->
+    <!-- 35*28 -->
+    <!-- <arg name="box_x_min" value="-18" />
+    <arg name="box_y_min" value="-14" />
+    <arg name="box_z_min" value="-0.1" />
+    <arg name="box_x_max" value="18" />
+    <arg name="box_y_max" value="16" />
+    <arg name="box_z_max" value="2.5" /> -->
+
+    <!-- closed forest_02 -->
+    <!-- 42 22 -->
+    <!-- <arg name="box_x_min" value="-24" />
+    <arg name="box_y_min" value="-13" />
+    <arg name="box_z_min" value="-0.1" />
+    <arg name="box_x_max" value="24" />
+    <arg name="box_y_max" value="13" />
+    <arg name="box_z_max" value="2.5" /> -->
+
+  </include>
+
+  <node pkg="waypoint_generator" name="waypoint_generator" type="waypoint_generator" output="screen">
+    <remap from="~odom" to="$(arg odom_topic)"/>        
+    <remap from="~goal" to="/move_base_simple/goal"/>
+    <remap from="~traj_start_trigger" to="/traj_start_trigger" />
+    <param name="waypoint_type" value="point"/>    
+  </node>
+
+
+</launch>

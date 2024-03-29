@@ -1,0 +1,3 @@
+<launch>
+  <node name="rviz_map" pkg="rviz" type="rviz" output="log" args="-d $(find plan_manage)/config/traj_cmp.rviz" />
+</launch>

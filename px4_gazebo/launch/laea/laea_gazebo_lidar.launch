@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<launch>
+
+    <rosparam param="child_frame_id">"base_link"</rosparam> 
+    <rosparam param="frame_id">"map"</rosparam> 
+    <arg name="odom_topic_in" value="/mavros/local_position/pose"/>
+
+    <node pkg="px4_gazebo" type="topic2tf" name="topic2tf" output="screen">
+        <remap from="~pose_in" to="$(arg odom_topic_in)"/>
+    </node>
+
+    <!-- MAVROS posix SITL environment launch script -->
+    <!-- launches Gazebo environment and 2x: MAVROS, PX4 SITL, and spawns vehicle -->
+    <!-- vehicle model and world -->
+    <arg name="est" default="ekf2"/>
+
+    <!-- Simulation map: indoor_01  indoor_02 -->
+    <arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/indoor_01.world"/>
+    <arg name="gui" default="true"/>
+    <!-- Launch Gazebo -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="world_name" value="$(arg world)" />
+    </include>
+
+    <!-- MAVROS and vehicle configs -->
+    <arg name="ID" value="0"/>
+    <arg name="ID_in_group" value="0"/>
+    <arg name="fcu_url" default="udp://:24540@localhost:34580"/>
+    <arg name="init_x" default="0"/>
+    <arg name="init_y" default="0"/>
+    <arg name="init_z" default="1"/>
+    <arg name="init_R" default="0"/>
+    <arg name="init_P" default="0"/>
+    <arg name="init_Y" default="0"/>
+    <arg name="vehicle" value="iris"/>
+    <!-- A drone model with a depth camera and radar -->
+    <arg name="sdf" value="iris_d435_lidar"/>
+
+    <!-- PX4 SITL and vehicle spawn -->
+    <include file="$(find px4)/launch/single_vehicle_spawn_xtd.launch">
+        <arg name="x" value="$(arg init_x)"/>
+        <arg name="y" value="$(arg init_y)"/>
+        <arg name="z" value="$(arg init_z)"/>
+        <arg name="R" value="$(arg init_R)"/>
+        <arg name="P" value="$(arg init_P)"/>
+        <arg name="Y" value="$(arg init_Y)"/>
+        <arg name="vehicle" value="$(arg vehicle)"/>
+        <arg name="sdf" value="$(arg sdf)"/>
+        <arg name="mavlink_udp_port" value="18570"/>
+        <arg name="mavlink_tcp_port" value="4560"/>
+        <arg name="ID" value="$(arg ID)"/>
+        <arg name="ID_in_group" value="$(arg ID_in_group)"/>
+    </include>
+
+    <!-- MAVROS -->
+    <arg name="respawn_mavros" default="false"/>
+    <include file="$(find mavros)/launch/px4.launch">
+        <arg name="fcu_url" value="$(arg fcu_url)"/>
+        <arg name="gcs_url" value=""/>
+        <arg name="tgt_system" value="$(eval 1 + arg('ID'))"/>
+        <arg name="tgt_component" value="1"/>
+    </include>
+
+</launch>
