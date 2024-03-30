@@ -1,14 +1,15 @@
 # LAEA: A 2D LiDAR-Assisted UAV Exploration Algorithm for Unknown Environments 
 
-[**LAEA**]() is a 2D LiDAR-Assisted UAV Exploration Algorithm based on the framework of FAEP. Please kindly star ⭐ this project if it helps you. We take great efforts to develop and maintain it 😁😁.
+[**LAEA**]() is a 2D LiDAR-Assisted UAV Exploration Algorithm based on the framework of FAEP. Please kindly star ⭐ this project if it helps you. We take great efforts to develop and maintain it 😁😁. There are **two branches** of this project, **main** (Support for Ubuntu 18 Melodic)  and **noetic** (for Ubuntu 20 noetic).
 
 ![avatar](.assets/figure_sim.png)
 
-Details about our works (youtube).
+Details about our works (Youtube).
 
 <p align="center">
   <a href="https://youtu.be/_a1Vl518Ra8" target="_blank"><img src=".assets/figure_cover.png" alt="video" width="800" height="400" border="1" /></a>
 </p>
+The video is also available on bilibili (**Chinese mainland**): https://www.bilibili.com/video/BV1mm421n71N 
 
 Please cite our paper if you use this project in your research:
 
@@ -28,7 +29,7 @@ ISSN = {2504-446X},
 }
 ```
 
-Simulation experiment quik overview: Indoor1、Indoor2、Forest. 
+Simulation experiment quik overview: Indoor1、Indoor2 and Forest. 
 
 ![avatar](.assets/indoor1-x30.gif)
 
@@ -43,7 +44,7 @@ Simulation experiment quik overview: Indoor1、Indoor2、Forest.
 
 We use **default px4 gazebo simulation environments**, the below **dependencies** is needed. Among them, regarding the configuration of the px4 gazebo simulation environment, you need to refer to the information on the Internet. 
 
-- ros & mavros: Support Ubuntu18.04 **Melodic**, Ubuntu20.04 **Noetic**. Please search for the detailed installation tutorial. The following installation steps are for reference only.
+- ros & mavros: Support Ubuntu18.04 **Melodic**, Ubuntu20.04 **Noetic**. Please search for the detailed installation tutorial, the following installation steps are for reference only.
 
 ```bash
 # you can use below to install ros-full quickly
@@ -72,7 +73,7 @@ reference: https://github.com/PX4/PX4-Autopilot
 
 ```bash
 sudo apt-get install libarmadillo-dev libdw-dev
-
+sudo apt-get install 
 # nlopt for non-linear optimization
 # Source code installation is recommended, as follows
 git clone https://github.com/stevengj/nlopt.git
@@ -81,6 +82,11 @@ mkdir build&&cd build/
 cmake ..
 make 
 sudo make install
+
+# for Ubuntu18.04 Melodic
+sudo apt install ros-melodic-octomap -y
+# for Ubuntu20.04 Noetic
+sudo apt install ros-noetic-octomap -y
 ```
 
 
@@ -92,7 +98,13 @@ Once the relevant environment has been configured (especially PX4), you can run 
 ```bash
 # cd ~/your_workspace_dir/src
 # mkdir -p ~/laea/src&&cd ~/laea/src
+
+# Support Ubuntu18.04 Melodic, Ubuntu20.04 Noetic.
+# for Ubuntu18.04 Melodic
 git clone https://github.com/Poaos/LAEA --recursive
+# for Ubuntu20.04 Noetic
+git clone https://github.com/Poaos/LAEA --recursive -b noetic
+
 cd ..
 catkin_make
 
